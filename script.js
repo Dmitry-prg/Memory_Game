@@ -588,9 +588,9 @@
       renderGame();
     }
 
-    setTimeout(function () {
+    requestAnimationFrame(function () {
       window.scrollTo(0, scrollY);
-    }, 0);
+    });
 
     updateFooterYear();
   }
@@ -783,6 +783,23 @@
     bindGameEvents();
   }
 
+  function updateCards() {
+    var grid = app.querySelector(".game-grid");
+    if (!grid) return;
+
+    var config = DIFFICULTIES[state.difficulty];
+    var colsClass = "cols-" + config.cols;
+
+    grid.className = "game-grid " + colsClass;
+    grid.innerHTML = state.cards
+      .map(function (card) {
+        return renderCard(card);
+      })
+      .join("");
+
+    bindCardEvents();
+  }
+
   function renderCard(card) {
     var isFlipped = card.isFlipped || card.isMatched;
     var matchedClass = card.isMatched ? " matched" : "";
@@ -824,7 +841,7 @@
     );
   }
 
-  function bindGameEvents() {
+  function bindCardEvents() {
     var cards = app.querySelectorAll(".card:not(.matched)");
     for (var i = 0; i < cards.length; i++) {
       cards[i].addEventListener("click", function () {
@@ -832,6 +849,10 @@
         handleFlip(id);
       });
     }
+  }
+
+  function bindGameEvents() {
+    bindCardEvents();
 
     var btnNew = document.getElementById("btn-new-game");
     if (btnNew) {
@@ -941,7 +962,7 @@
       state.moves++;
       state.locked = true;
 
-      render();
+      updateCards();
 
       var firstId = state.flippedIds[0];
       var secondId = state.flippedIds[1];
@@ -965,7 +986,7 @@
           state.flippedIds = [];
           state.locked = false;
           checkWin();
-          render();
+          updateCards();
         }, 400);
       } else {
         setTimeout(function () {
@@ -979,11 +1000,11 @@
           }
           state.flippedIds = [];
           state.locked = false;
-          render();
+          updateCards();
         }, 1000);
       }
     } else {
-      render();
+      updateCards();
     }
   }
 
@@ -1030,8 +1051,7 @@
     if (yearEl) {
       yearEl.textContent =
         "\u00A9 " +
-        new Date().getFullYear() +
-        " \u0417\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u0439\u043A\u0430";
+        new Date().getFullYear();
     }
   }
 
