@@ -588,9 +588,9 @@
       renderGame();
     }
 
-    requestAnimationFrame(function () {
+    setTimeout(function () {
       window.scrollTo(0, scrollY);
-    });
+    }, 0);
 
     updateFooterYear();
   }
