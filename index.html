@@ -31,6 +31,55 @@
           </svg>
         </div>
         <h1 class="header-title">Запоминайка</h1>
+        <div class="header-actions">
+          <button
+            class="header-btn"
+            id="btn-rules"
+            title="Правила"
+            aria-label="Правила"
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+              <path
+                d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"
+              />
+            </svg>
+            <span>Правила</span>
+          </button>
+          <button
+            class="header-btn"
+            id="btn-share"
+            title="Поделиться"
+            aria-label="Поделиться"
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="18" cy="5" r="3" />
+              <circle cx="6" cy="12" r="3" />
+              <circle cx="18" cy="19" r="3" />
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+            </svg>
+            <span>Поделиться</span>
+          </button>
+        </div>
       </div>
     </header>
 
@@ -39,8 +88,109 @@
     </main>
 
     <footer class="footer">
-      <p>&copy; 2026 </p><a href="https://github.com/Dmitry-prg">Dmitry</a>
+      <p>&copy; 2024 Запоминайка</p>
     </footer>
+
+    <div class="modal-overlay" id="modal-rules">
+      <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-rules-title"
+      >
+        <div class="modal-header">
+          <h2 class="modal-title" id="modal-rules-title">Правила игры</h2>
+          <button
+            class="modal-close"
+            id="modal-rules-close"
+            aria-label="Закрыть"
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Нажимай на карточки, чтобы открыть их. Найди все пары одинаковых
+            карточек. Чем меньше ходов и времени — тем лучше!
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" id="modal-rules-close-btn">
+            Закрыть
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-share">
+      <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-share-title"
+      >
+        <div class="modal-header">
+          <h2 class="modal-title" id="modal-share-title">Поделиться игрой</h2>
+          <button
+            class="modal-close"
+            id="modal-share-close"
+            aria-label="Закрыть"
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="share-qr">
+            <img
+              src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://dmitry-prg.github.io/Memory_Game/"
+              alt="QR-код"
+              width="200"
+              height="200"
+              id="qr-image"
+            />
+          </div>
+          <div class="share-link-wrap">
+            <input
+              type="text"
+              class="share-link"
+              id="share-link"
+              value="https://dmitry-prg.github.io/Memory_Game/"
+              readonly
+            />
+            <button class="btn btn-primary" id="btn-copy">Копировать</button>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline" id="modal-share-close-btn">
+            Закрыть
+          </button>
+        </div>
+      </div>
+    </div>
 
     <script src="script.js"></script>
     <script>
