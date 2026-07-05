@@ -578,6 +578,8 @@
   var app = document.getElementById("app");
 
   function render() {
+    var scrollY = window.scrollY;
+
     if (state.difficulty === null) {
       renderSelection();
     } else if (state.won) {
@@ -585,6 +587,12 @@
     } else {
       renderGame();
     }
+
+    requestAnimationFrame(function () {
+      window.scrollTo(0, scrollY);
+    });
+
+    updateFooterYear();
   }
 
   /* ---- Selection Screen ---- */
@@ -1014,6 +1022,16 @@
     var el = document.querySelector(".stat-item:last-child span:last-child");
     if (el) {
       el.textContent = formatTime(state.elapsed);
+    }
+  }
+
+  function updateFooterYear() {
+    var yearEl = document.querySelector(".footer p");
+    if (yearEl) {
+      yearEl.textContent =
+        "\u00A9 " +
+        new Date().getFullYear() +
+        " \u0417\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u0439\u043A\u0430";
     }
   }
 
