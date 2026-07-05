@@ -1,7 +1,7 @@
 {
   "name": "Запоминайка",
   "short_name": "Запоминайка",
-  "start_url": "/index.html",
+  "start_url": ".",
   "display": "standalone",
   "background_color": "#e0e7ff",
   "theme_color": "#6366f1",
