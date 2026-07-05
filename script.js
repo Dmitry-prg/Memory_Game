@@ -1160,7 +1160,7 @@
       try {
         navigator.clipboard.writeText(input.value).then(function () {
           var orig = copyBtn.textContent;
-          copyBtn.textContent = "Скопировано!";
+          copyBtn.textContent = "📋";
           setTimeout(function () {
             copyBtn.textContent = orig;
           }, 2000);
@@ -1177,7 +1177,15 @@
   }
 
   /* ===== Init ===== */
-  initModals();
-  initCopy();
-  render();
+  function init() {
+    initModals();
+    initCopy();
+    render();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
 })();
