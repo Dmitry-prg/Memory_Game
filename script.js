@@ -783,15 +783,54 @@
 
     var config = DIFFICULTIES[state.difficulty];
     var colsClass = "cols-" + config.cols;
-
     grid.className = "game-grid " + colsClass;
-    grid.innerHTML = state.cards
-      .map(function (card) {
-        return renderCard(card);
-      })
-      .join("");
 
-    bindCardEvents();
+    var cards = state.cards;
+    var existing = grid.children;
+
+    if (existing.length === cards.length) {
+      for (var i = 0; i < cards.length; i++) {
+        var cardEl = existing[i];
+        var card = cards[i];
+
+        cardEl.className = "card" + (card.isMatched ? " matched" : "");
+        cardEl.setAttribute("data-card-id", card.id);
+
+        var inner = cardEl.querySelector(".card-inner");
+        var isFlipped = card.isFlipped || card.isMatched;
+        inner.className =
+          "card-inner" +
+          (isFlipped ? " flipped" : "") +
+          (card.isMatched ? " animate-match" : "");
+
+        var cardBack = cardEl.querySelector(".card-back");
+        cardBack.className =
+          "card-face card-back" + (card.isMatched ? " matched" : "");
+
+        var content = "";
+        if (state.theme === "emoji") {
+          content =
+            '<span class="card-content-emoji">' + card.content + "</span>";
+        } else if (state.theme === "shapes") {
+          content =
+            '<span class="card-content-shapes">' +
+            shapeSVG(card.content) +
+            "</span>";
+        } else {
+          content =
+            '<img src="' +
+            card.content +
+            '" alt="" class="card-content-image" />';
+        }
+        cardBack.innerHTML = content;
+      }
+    } else {
+      grid.innerHTML = cards
+        .map(function (card) {
+          return renderCard(card);
+        })
+        .join("");
+    }
   }
 
   function renderCard(card) {
@@ -836,13 +875,15 @@
   }
 
   function bindCardEvents() {
-    var cards = app.querySelectorAll(".card:not(.matched)");
-    for (var i = 0; i < cards.length; i++) {
-      cards[i].addEventListener("click", function () {
-        var id = parseInt(this.getAttribute("data-card-id"), 10);
-        handleFlip(id);
-      });
-    }
+    var grid = app.querySelector(".game-grid");
+    if (!grid) return;
+
+    grid.addEventListener("click", function (e) {
+      var cardEl = e.target.closest(".card");
+      if (!cardEl || cardEl.classList.contains("matched")) return;
+      var id = parseInt(cardEl.getAttribute("data-card-id"), 10);
+      handleFlip(id);
+    });
   }
 
   function bindGameEvents() {
