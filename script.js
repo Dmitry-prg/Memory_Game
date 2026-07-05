@@ -578,8 +578,6 @@
   var app = document.getElementById("app");
 
   function render() {
-    var scrollY = window.scrollY;
-
     if (state.difficulty === null) {
       renderSelection();
     } else if (state.won) {
@@ -587,10 +585,6 @@
     } else {
       renderGame();
     }
-
-    requestAnimationFrame(function () {
-      window.scrollTo(0, scrollY);
-    });
 
     updateFooterYear();
   }
@@ -1051,10 +1045,98 @@
     if (yearEl) {
       yearEl.textContent =
         "\u00A9 " +
-        new Date().getFullYear();
+        new Date().getFullYear() +
+        " \u0417\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u0439\u043A\u0430";
     }
   }
 
+  /* ===== Modal ===== */
+  function initModals() {
+    var rulesBtn = document.getElementById("btn-rules");
+    var shareBtn = document.getElementById("btn-share");
+    var rulesModal = document.getElementById("modal-rules");
+    var shareModal = document.getElementById("modal-share");
+
+    if (!rulesBtn || !shareBtn || !rulesModal || !shareModal) return;
+
+    function openModal(overlay) {
+      overlay.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeModal(overlay) {
+      overlay.classList.remove("open");
+      document.body.style.overflow = "";
+    }
+
+    function closeOnOverlay(e) {
+      if (e.target === this) {
+        closeModal(this);
+      }
+    }
+
+    rulesBtn.addEventListener("click", function () {
+      openModal(rulesModal);
+    });
+
+    shareBtn.addEventListener("click", function () {
+      openModal(shareModal);
+    });
+
+    rulesModal.addEventListener("click", closeOnOverlay);
+    shareModal.addEventListener("click", closeOnOverlay);
+
+    document
+      .querySelectorAll('[id$="-close"], [id$="-close-btn"]')
+      .forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var overlay = this.closest(".modal-overlay");
+          if (overlay) closeModal(overlay);
+        });
+      });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") {
+        document.querySelectorAll(".modal-overlay.open").forEach(function (ov) {
+          closeModal(ov);
+        });
+      }
+    });
+  }
+
+  /* ===== Copy Link ===== */
+  function initCopy() {
+    var copyBtn = document.getElementById("btn-copy");
+    if (!copyBtn) return;
+
+    copyBtn.addEventListener("click", function () {
+      var input = document.getElementById("share-link");
+      if (!input) return;
+
+      input.select();
+      input.setSelectionRange(0, 99999);
+
+      try {
+        navigator.clipboard.writeText(input.value).then(function () {
+          var orig = copyBtn.textContent;
+          copyBtn.textContent = "Скопировано!";
+          setTimeout(function () {
+            copyBtn.textContent = orig;
+          }, 2000);
+        });
+      } catch (_) {
+        document.execCommand("copy");
+        var orig = copyBtn.textContent;
+        copyBtn.textContent = "Скопировано!";
+        setTimeout(function () {
+          copyBtn.textContent = orig;
+        }, 2000);
+      }
+    });
+  }
+
   /* ===== Init ===== */
+  initModals();
+  initCopy();
   render();
 })();
