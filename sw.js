@@ -1,4 +1,5 @@
-const CACHE_NAME = "zapominalka-v1";
+
+const CACHE_NAME = "zapominalka-v2";
 const FILES_TO_CACHE = [
   "./index.html",
   "./style.css",
