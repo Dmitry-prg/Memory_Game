@@ -785,4 +785,18 @@ main {
     padding: 0.75rem 1.5rem;
     font-size: 1rem;
   }
+
+  .share-link-wrap {
+    flex-direction: column;
+  }
+
+  .share-link-wrap .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .share-qr img {
+    width: 150px;
+    height: 150px;
+  }
 }

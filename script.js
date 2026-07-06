@@ -1082,12 +1082,9 @@
   }
 
   function updateFooterYear() {
-    var yearEl = document.querySelector(".footer p");
+    var yearEl = document.getElementById("footer-year");
     if (yearEl) {
-      yearEl.textContent =
-        "\u00A9 " +
-        new Date().getFullYear() +
-        " \u0417\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u0439\u043A\u0430";
+      yearEl.textContent = String(new Date().getFullYear());
     }
   }
 
