@@ -1092,13 +1092,148 @@
   }
 
   /* ===== Modal ===== */
+  function createRulesModal() {
+    var overlay = document.createElement("div");
+    overlay.className = "modal-overlay";
+    overlay.id = "modal-rules";
+
+    var modal = document.createElement("div");
+    modal.className = "modal";
+    modal.setAttribute("role", "dialog");
+    modal.setAttribute("aria-modal", "true");
+    modal.setAttribute("aria-labelledby", "modal-rules-title");
+    overlay.appendChild(modal);
+
+    var header = document.createElement("div");
+    header.className = "modal-header";
+    modal.appendChild(header);
+
+    var title = document.createElement("h2");
+    title.className = "modal-title";
+    title.id = "modal-rules-title";
+    title.innerHTML =
+      '<span class="modal-title-icon">' +
+      '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+      '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span> Правила игры';
+    header.appendChild(title);
+
+    var closeBtn = document.createElement("button");
+    closeBtn.className = "modal-close";
+    closeBtn.id = "modal-rules-close";
+    closeBtn.setAttribute("aria-label", "Закрыть");
+    closeBtn.innerHTML =
+      '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+    header.appendChild(closeBtn);
+
+    var body = document.createElement("div");
+    body.className = "modal-body";
+    body.innerHTML =
+      "<p>Нажимай на карточки, чтобы открыть их. Найди все пары одинаковых карточек. Чем меньше ходов и времени — тем лучше!</p>";
+    modal.appendChild(body);
+
+    var footer = document.createElement("div");
+    footer.className = "modal-footer";
+    modal.appendChild(footer);
+
+    var footerBtn = document.createElement("button");
+    footerBtn.className = "btn btn-primary";
+    footerBtn.id = "modal-rules-close-btn";
+    footerBtn.textContent = "Закрыть";
+    footer.appendChild(footerBtn);
+
+    return overlay;
+  }
+
+  function createShareModal() {
+    var overlay = document.createElement("div");
+    overlay.className = "modal-overlay";
+    overlay.id = "modal-share";
+
+    var modal = document.createElement("div");
+    modal.className = "modal";
+    modal.setAttribute("role", "dialog");
+    modal.setAttribute("aria-modal", "true");
+    modal.setAttribute("aria-labelledby", "modal-share-title");
+    overlay.appendChild(modal);
+
+    var header = document.createElement("div");
+    header.className = "modal-header";
+    modal.appendChild(header);
+
+    var title = document.createElement("h2");
+    title.className = "modal-title";
+    title.id = "modal-share-title";
+    title.innerHTML =
+      '<span class="modal-title-icon">' +
+      '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+      '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>' +
+      '<line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></span> Поделиться игрой';
+    header.appendChild(title);
+
+    var closeBtn = document.createElement("button");
+    closeBtn.className = "modal-close";
+    closeBtn.id = "modal-share-close";
+    closeBtn.setAttribute("aria-label", "Закрыть");
+    closeBtn.innerHTML =
+      '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+    header.appendChild(closeBtn);
+
+    var body = document.createElement("div");
+    body.className = "modal-body";
+
+    var qrDiv = document.createElement("div");
+    qrDiv.className = "share-qr";
+    var qrImg = document.createElement("img");
+    qrImg.src = "./images/qr-code.svg";
+    qrImg.alt = "QR-код";
+    qrImg.width = 200;
+    qrImg.height = 200;
+    qrImg.id = "qr-image";
+    qrDiv.appendChild(qrImg);
+    body.appendChild(qrDiv);
+
+    var linkWrap = document.createElement("div");
+    linkWrap.className = "share-link-wrap";
+    var linkInput = document.createElement("input");
+    linkInput.type = "text";
+    linkInput.className = "share-link";
+    linkInput.id = "share-link";
+    linkInput.value = "https://dmitry-prg.github.io/Memory_Game/";
+    linkInput.readOnly = true;
+    linkWrap.appendChild(linkInput);
+
+    var copyBtn = document.createElement("button");
+    copyBtn.className = "btn btn-primary";
+    copyBtn.id = "btn-copy";
+    copyBtn.textContent = "Копировать";
+    linkWrap.appendChild(copyBtn);
+    body.appendChild(linkWrap);
+
+    modal.appendChild(body);
+
+    var footer = document.createElement("div");
+    footer.className = "modal-footer";
+    modal.appendChild(footer);
+
+    var footerBtn = document.createElement("button");
+    footerBtn.className = "btn btn-outline";
+    footerBtn.id = "modal-share-close-btn";
+    footerBtn.textContent = "Закрыть";
+    footer.appendChild(footerBtn);
+
+    return overlay;
+  }
+
   function initModals() {
     var rulesBtn = document.getElementById("btn-rules");
     var shareBtn = document.getElementById("btn-share");
-    var rulesModal = document.getElementById("modal-rules");
-    var shareModal = document.getElementById("modal-share");
 
-    if (!rulesBtn || !shareBtn || !rulesModal || !shareModal) return;
+    if (!rulesBtn || !shareBtn) return;
+
+    var rulesModal = createRulesModal();
+    var shareModal = createShareModal();
+    document.body.appendChild(rulesModal);
+    document.body.appendChild(shareModal);
 
     function openModal(overlay) {
       overlay.classList.add("open");
@@ -1127,20 +1262,25 @@
     rulesModal.addEventListener("click", closeOnOverlay);
     shareModal.addEventListener("click", closeOnOverlay);
 
-    document
-      .querySelectorAll('[id$="-close"], [id$="-close-btn"]')
-      .forEach(function (btn) {
-        btn.addEventListener("click", function () {
-          var overlay = this.closest(".modal-overlay");
-          if (overlay) closeModal(overlay);
+    function bindCloseButtons(overlay) {
+      var btns = overlay.querySelectorAll('[id$="-close"], [id$="-close-btn"]');
+      for (var i = 0; i < btns.length; i++) {
+        btns[i].addEventListener("click", function () {
+          var o = this.closest(".modal-overlay");
+          if (o) closeModal(o);
         });
-      });
+      }
+    }
+
+    bindCloseButtons(rulesModal);
+    bindCloseButtons(shareModal);
 
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape") {
-        document.querySelectorAll(".modal-overlay.open").forEach(function (ov) {
-          closeModal(ov);
-        });
+        var openOverlays = document.querySelectorAll(".modal-overlay.open");
+        for (var i = 0; i < openOverlays.length; i++) {
+          closeModal(openOverlays[i]);
+        }
       }
     });
   }
@@ -1160,7 +1300,7 @@
       try {
         navigator.clipboard.writeText(input.value).then(function () {
           var orig = copyBtn.textContent;
-          copyBtn.textContent = "📋";
+          copyBtn.textContent = "Скопировано!";
           setTimeout(function () {
             copyBtn.textContent = orig;
           }, 2000);

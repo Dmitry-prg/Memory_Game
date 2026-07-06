@@ -1,4 +1,3 @@
-
 const CACHE_NAME = "zapominalka-v2";
 const FILES_TO_CACHE = [
   "./index.html",
@@ -28,6 +27,7 @@ const FILES_TO_CACHE = [
   "./images/card-22.svg",
   "./images/card-23.svg",
   "./images/card-24.svg",
+  "./images/qr-code.svg",
   "./icons/icon-192x192.png",
   "./icons/icon-512x512.png",
 ];
