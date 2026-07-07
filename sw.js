@@ -29,34 +29,49 @@ const FILES_TO_CACHE = [
   "./images/card-24.svg",
   "./images/qr-code.svg",
   "./icons/icon-192x192.png",
-  "./icons/icon-512x512.png",
+  "./icons/icon-512x512.png"
 ];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(FILES_TO_CACHE);
-    })
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(FILES_TO_CACHE))
   );
 });
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((keys) => {
-      return Promise.all(
+    caches.keys().then((keys) =>
+      Promise.all(
         keys
           .filter((key) => key !== CACHE_NAME)
           .map((key) => caches.delete(key))
-      );
-    })
+      )
+    )
   );
 });
 
 self.addEventListener("fetch", (event) => {
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      if (cached) return cached;
-      return fetch(event.request);
-    })
+    (async () => {
+      // Сначала пробуем взять из кэша
+      const cachedResponse = await caches.match(event.request);
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+
+      // Если в кэше нет — пробуем сеть
+      try {
+        const networkResponse = await fetch(event.request);
+        return networkResponse;
+      } catch (error) {
+        // Если сеть недоступна (ошибка fetch) — проверяем, это запрос документа?
+        if (event.request.destination === "document") {
+          // Возвращаем index.html как fallback
+          return await caches.match("./index.html");
+        }
+        // Для остальных ресурсов (картинки, скрипты и т.п.) можно вернуть ошибку или заглушку
+        return new Response(null, { status: 404 });
+      }
+    })()
   );
 });
